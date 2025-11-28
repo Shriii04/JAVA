@@ -13,7 +13,7 @@
 
 ---
 
-## 🎯 Introduction to Memory in Java {#introduction}
+## 🎯 Introduction to Memory in Java 
 
 ### What is Memory Management?
 
@@ -189,7 +189,7 @@ public class MemoryDemo {
 
 ---
 
-## 🔄 Pass by Value in Java {#pass-by-value}
+## 🔄 Passing Value in Java 
 
 ### The Big Myth: "Java has Pass by Reference"
 
@@ -293,7 +293,7 @@ Both 'person' and 'p' point to the SAME object!
 Changes through either reference affect the same object.
 ```
 
-### Example 3: The Gotcha - Reassigning References
+### Example 3: Reassigning References
 
 ```java
 public class ReferenceReassignment {
@@ -346,7 +346,7 @@ The original reference in main() was never changed!
 
 ---
 
-## 🔒 The Final Keyword {#final-keyword}
+## 🔒 The Final Keyword 
 
 The `final` keyword means **"this cannot be changed after initialization"**
 
@@ -491,17 +491,9 @@ public final class ImmutablePoint {
 // ❌ This would cause compilation error:
 // class ColoredPoint extends ImmutablePoint { ... }
 ```
-
-**Real-world example:** `String` class in Java is final!
-
-```java
-// String is declared as: public final class String { ... }
-// This ensures String's immutability cannot be compromised
-```
-
 ---
 
-## ⚠️ Escaping References {#escaping-references}
+## ⚠️ Escaping References 
 
 ### What is an Escaping Reference?
 
@@ -667,96 +659,6 @@ public class Employee {
 }
 ```
 
-### Solution 5: Use Immutable Classes (Best Practice)
-
-```java
-import java.time.LocalDate;  // Immutable!
-
-public class Employee {
-    private final String name;
-    private final LocalDate startDate;  // Immutable - no copy needed!
-    
-    public Employee(String name, LocalDate startDate) {
-        this.name = name;
-        this.startDate = startDate;  // Safe - LocalDate is immutable
-    }
-    
-    public LocalDate getStartDate() {
-        return startDate;  // Safe to return directly
-    }
-}
-```
-
-### Complete Example: Proper Encapsulation
-
-```java
-import java.util.*;
-
-// ✅ GOOD: Properly encapsulated class
-public class Library {
-    
-    private final Map<String, Book> books;
-    
-    public Library() {
-        this.books = new HashMap<>();
-    }
-    
-    // Controlled mutation through methods
-    public void addBook(Book book) {
-        if (book == null) throw new IllegalArgumentException("Book cannot be null");
-        books.put(book.getIsbn(), book);
-    }
-    
-    public boolean removeBook(String isbn) {
-        return books.remove(isbn) != null;
-    }
-    
-    // Return defensive copy
-    public Book getBook(String isbn) {
-        Book book = books.get(isbn);
-        return book != null ? new Book(book) : null;  // Return copy
-    }
-    
-    // Return unmodifiable view of all books
-    public Collection<Book> getAllBooks() {
-        // Create copies of all books
-        List<Book> copies = new ArrayList<>();
-        for (Book book : books.values()) {
-            copies.add(new Book(book));
-        }
-        return Collections.unmodifiableCollection(copies);
-    }
-    
-    public int getBookCount() {
-        return books.size();
-    }
-}
-
-// Immutable Book class (best practice)
-public final class Book {
-    private final String isbn;
-    private final String title;
-    private final String author;
-    
-    public Book(String isbn, String title, String author) {
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-    }
-    
-    // Copy constructor
-    public Book(Book other) {
-        this.isbn = other.isbn;
-        this.title = other.title;
-        this.author = other.author;
-    }
-    
-    public String getIsbn() { return isbn; }
-    public String getTitle() { return title; }
-    public String getAuthor() { return author; }
-}
-```
-
 ### 📊 Escaping References - Summary Table
 
 | Problem | Solution | Example |
@@ -827,6 +729,3 @@ return mutableObject;
 | Understand reference vs value | Avoid subtle bugs |
 
 ---
-
-
-
